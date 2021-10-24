@@ -42,11 +42,11 @@ function Header() {
 export default Header
 
 const Nav=styled.div`
-height:70px;
-background:#090b13;
-display:flex;
-align-items:center;
-padding:0 36px;
+    height:70px;
+    background:#090b13;
+    display:flex;
+    align-items:center;
+    padding:0 36px;
 `
 
 //--------------------
@@ -58,8 +58,6 @@ const Logo = styled.img`
 const NavMenu = styled.div`
 display:flex;
 flex: 1;
-padding-left: 15%;
-
 a{
     display:flex;
     align-items:center;
