@@ -47,6 +47,7 @@ const Nav=styled.div`
     display:flex;
     align-items:center;
     padding:0 36px;
+    overflow-x: hidden;
 `
 
 //--------------------
@@ -102,6 +103,6 @@ const UserImage = styled.img`
 width:45px;
 height:40px;
 border-radius: 50%;
-display: flex;
-justify-content: flex-start;
+//display: flex;
+//justify-content: flex-start;
 `
