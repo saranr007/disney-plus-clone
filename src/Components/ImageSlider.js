@@ -51,7 +51,6 @@ button{
 `
 const Wrap = styled.div`
 cursor: pointer;
-time
 img{
     border:4px solid transparent;
     border-radius: 10px;
