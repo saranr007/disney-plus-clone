@@ -1,36 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { selectMovies  } from '../features/Movies/movieSlicer'
+import { useSelector } from 'react-redux'
 function Movies() {
+    const movies = useSelector(selectMovies);
+    //console.log("movie image url",movies.map((m)=>m.image));
+    console.log("This is movies",movies);
+    let movie = [];
+    
     return (
         <Container>
             <h4>Recommended for You</h4>
             <Content>
-                <Wrap>
-                    <img src="https://whatsondisneyplus.com/wp-content/uploads/2019/10/EG1tpkVVUAEU30q.jpg"/>
-                </Wrap>
-                <Wrap>
-                    <img src="https://whatsondisneyplus.com/wp-content/uploads/2019/10/EG1tpkVVUAEU30q.jpg"/>
-                </Wrap>
-                <Wrap>
-                    <img src="https://whatsondisneyplus.com/wp-content/uploads/2019/10/EG1tpkVVUAEU30q.jpg"/>
-                </Wrap>
-                <Wrap>
-                    <img src="https://whatsondisneyplus.com/wp-content/uploads/2019/10/EG1tpkVVUAEU30q.jpg"/>
-                </Wrap>
-                <Wrap>
-                    <img src="https://whatsondisneyplus.com/wp-content/uploads/2019/10/EG1tpkVVUAEU30q.jpg"/>
-                </Wrap>
-                <Wrap>
-                    <img src="https://whatsondisneyplus.com/wp-content/uploads/2019/10/EG1tpkVVUAEU30q.jpg"/>
-                </Wrap>
-                <Wrap>
-                    <img src="https://whatsondisneyplus.com/wp-content/uploads/2019/10/EG1tpkVVUAEU30q.jpg"/>
-                </Wrap>
-                <Wrap>
-                    <img src="https://whatsondisneyplus.com/wp-content/uploads/2019/10/EG1tpkVVUAEU30q.jpg"/>
-                </Wrap>
-
+                {
+                    movies&&movies.map((m)=>(
+                        <Wrap key={movie.id}>
+                            <img src = {m.image}/>
+                        </Wrap>
+                    ))
+                }
+                       
+          
+                                        
             </Content>
         </Container>
     )
@@ -58,7 +49,7 @@ img{
     
     height:100%; 
     width:100%;
-    object-fit: cover;
+    object-fit:cover;
 }
 
 &:hover{

@@ -5,27 +5,22 @@ import Viewer from './Viewer'
 import Movies from './Movies'
 import db from '../firebase'
 import { collection, doc, setDoc,onSnapshot,getDoc,query } from "firebase/firestore";
+import {useDispatch} from 'react-redux'; 
+import {setMovies} from "../features/Movies/movieSlicer";
 
 function Home() {
     const movies = query(collection(db,"movies")); 
-   // const docI = [];
+    const dispatch = useDispatch();
     useEffect(()=>{
            onSnapshot(movies,(snapshot)=>{
-                let docId = snapshot.docs.map((doc)=>{
-                    //console.log(doc.data());
+                let tempMovies = snapshot.docs.map((doc)=>{
                     return{ id : doc.id, ...doc.data()}
                 })
-                console.log(docId)
+                //console.log(tempMovies);
+                dispatch(setMovies(tempMovies));
             })      
     }, [])
 
-    // useEffect(() => {
-    //     const q = query(collection(db, "movies"))
-    //     let unsub = onSnapshot(q, (querySnapshot) => {
-    //         querySnapshot.docs.map((d) =>{
-    //           return{id:d.id,...d.data()};
-    //     });
-    //   }, [])
     return (
         <Container>
             <ImageSlider/>
