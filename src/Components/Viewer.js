@@ -26,7 +26,7 @@ function Viewer() {
 export default Viewer
 
 const Container = styled.div`
-    margin-top:30px;
+    margin-top:10px;
     display: grid;
     padding:36px 0px 26px;
     grid-gap: 25px;
