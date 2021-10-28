@@ -1,39 +1,75 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
+import db from  '../firebase'
+import { collection, getDoc, query,doc } from '@firebase/firestore'
+import Movies from './Movies'
 
 function Detail() {
+    const {id} = useParams();
+    //console.log(id);
+    const[movie,setMovie] = useState();
+    //console.log(movieD.data());
+
+    useEffect(()=>{
+        // let movieDatabase = doc(db,"movies",id);
+        // let docsnap = getDoc(movieDatabase);
+        getDoc(doc(db,"movies",id)).then((docbytID)=>{
+                if(docbytID.exists())
+                {
+                    setMovie(docbytID.data());
+                    
+                }
+                else
+                {
+                    console.log("Not found");
+                }
+            })
+           
+    },[])
+       
+    
+
+
+    //console.log("Movie is ", movie);
     return (
+        
         <Container>
-            <Background>
-                <img src="https://images8.alphacoders.com/779/thumb-1920-779649.jpg"/>
-            </Background>
-            <ImageTitle>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/The_logo_simpsons_yellow.svg"/>
-            </ImageTitle>
-            <Controls>
-                <PlayButton>
-                    <img src = "/images/play-icon-black.png" />
-                    <span>PLAY</span>
-                </PlayButton>
-                <TrailerButton>
-                    <img src = "/images/play-icon-white.png" />
-                    <span>TRAILER</span>
-                </TrailerButton>
-                <AddButton>
-                    <span>+</span>
-                </AddButton>
-                <GroupWatchButton>
-                    <img src = "/images/group-icon.png" />
-                </GroupWatchButton>
-            </Controls>
-            <SubTitle>
-                1 hr 23 min - 2007 - Animation - U/A 13+ - English
-            </SubTitle>
-            <Description>
-                The film follows Homer Simpson, who irresponsibly pollutes the lake in Springfield, causing the Environmental Protection Agency to imprison the town under a dome.
-            </Description>
+            {movie&&(
+            <>
+                <Background>
+                    <img src={movie.bg}/>
+                </Background>
+                <ImageTitle>
+                    <img src={movie.ti}/>
+                </ImageTitle>
+                <Controls>
+                    <PlayButton>
+                        <img src = "/images/play-icon-black.png" />
+                        <span>PLAY</span>
+                    </PlayButton>
+                    <TrailerButton>
+                        <img src = "/images/play-icon-white.png" />
+                        <span>TRAILER</span>
+                    </TrailerButton>
+                    <AddButton>
+                        <span>+</span>
+                    </AddButton>
+                    <GroupWatchButton>
+                        <img src = "/images/group-icon.png" />
+                    </GroupWatchButton>
+                </Controls>
+                <SubTitle>
+                    {movie.subtitle}
+                </SubTitle>
+                <Description>
+                    {movie.description}
+                </Description>
+            </>
+            )}
         </Container>
-    )
+        )
+        
 }
 
 export default Detail

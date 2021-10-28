@@ -2,20 +2,20 @@ import React from 'react'
 import styled from 'styled-components'
 import { selectMovies  } from '../features/Movies/movieSlicer'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 function Movies() {
     const movies = useSelector(selectMovies);
-    //console.log("movie image url",movies.map((m)=>m.image));
-    console.log("This is movies",movies);
-    let movie = [];
-    
     return (
         <Container>
             <h4>Recommended for You</h4>
             <Content>
                 {
                     movies&&movies.map((m)=>(
-                        <Wrap key={movie.id}>
-                            <img src = {m.image}/>
+                        <Wrap key={m.id}>
+                            <Link to = {`detail/${m.id}`}>
+                                <img src = {m.image}/>
+                            </Link>
+                            
                         </Wrap>
                     ))
                 }
