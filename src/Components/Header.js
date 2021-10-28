@@ -1,12 +1,14 @@
 
-import React from 'react'
+import React,{useEffect} from 'react'
 import styled from 'styled-components'
 import {
-    selectuserPhoto,selectuserName,setUserLogin
+    selectuserPhoto,selectuserName,setUserLogin, setSignOut
 } from "../features/user/userSlice"
-import { GoogleAuthProvider,getAuth,signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider,getAuth,signInWithPopup,signOut } from "firebase/auth";
+import { useHistory } from 'react-router';
 
 import {useSelector,useDispatch } from 'react-redux'
+import { auth } from '../firebase';
 
 function Header() {
     const provider = new GoogleAuthProvider();
@@ -14,7 +16,25 @@ function Header() {
     const userName = useSelector(selectuserName);
     const userPhoto = useSelector(selectuserPhoto);
     const dispatch = useDispatch();
-    
+    const history = useHistory();
+
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user)=>{
+            if(user)
+            {
+                dispatch(setUserLogin({
+                    name : user.displayName,
+                    email:user.email,
+                    photo:user.photoURL,
+
+                }))
+                history.push('/');
+            }
+        })
+    }, [])
+
+
+
     const signin = () =>{
         signInWithPopup(auth,provider).then((result)=>{
                 let user = result.user;
@@ -24,8 +44,15 @@ function Header() {
                     photo:user.photoURL,
 
                 }))
+                history.push('/')
         })
+    }
 
+    const signout = () =>{
+        signOut(auth).then(()=>{
+            dispatch(setSignOut());
+            history.push('/login');
+        })
     }
     return (
         <Nav>
@@ -65,7 +92,7 @@ function Header() {
                         </a>
 
                     </NavMenu>
-                    <UserImage src = "https://i.kinja-img.com/gawker-media/image/upload/t_original/ijsi5fzb1nbkbhxa2gc1.png"/>
+                    <UserImage onClick={signout} src = "https://i.kinja-img.com/gawker-media/image/upload/t_original/ijsi5fzb1nbkbhxa2gc1.png"/>
                 </>
 
             }
@@ -162,6 +189,12 @@ const UserImage = styled.img`
 width:45px;
 height:40px;
 border-radius: 50%;
+cursor: pointer;
+transition: all 0.5s ease-in;
+&:hover{
+    border:2px solid red;
+    transform:scale(1.1);
+}
 //display: flex;
 //justify-content: flex-start;
 `
